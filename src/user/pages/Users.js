@@ -10,7 +10,7 @@ const Users = () => {
       image:"https://cdn.imagecomics.com/assets/i/releases/929824/february-2023_f69e3ce9ca.jpg",
       places:3
     },
-    {id:'u1',
+    {id:'u2',
     name:"sandesh poudel",
     image:"https://cdn.imagecomics.com/assets/i/releases/929824/february-2023_f69e3ce9ca.jpg",
     places:390
