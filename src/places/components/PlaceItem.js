@@ -1,10 +1,29 @@
-import React from "react";
+import React,{useState} from "react";
 import './PlaceItem.css';
 import Card from "../../shared/components/UIElement/Card";
 import Button from "../../shared/components/FormElement/Button";
+import Modal from "../../shared/components/UIElement/Model";
+
 
 const PlaceItem = props =>{
+
+const [showMap, setShowMap] = useState(false);
+const openMapHandler =() =>setShowMap(true);
+const closeMapHandler =()=>setShowMap(false);
+
     return( 
+        <React.Fragment>
+            <Modal 
+            show={showMap}
+            onCancel={closeMapHandler}
+            header={props.address}
+            contentClass="place-item__modal-content"
+            footerClass="place-item__modal-actions"
+            footer={<Button onClick={closeMapHandler}>CLOSE</Button>} >
+                <div className="map-container">
+                    <h2>sorry sandesh map cannot be shown it is costly which you cannot afford</h2>
+                </div>
+            </Modal>
     <li className="place-item">
         <Card className ="place-item__content">
         <div className="place-item__image">
@@ -17,11 +36,11 @@ const PlaceItem = props =>{
         </div>
         <div className="place-item__actions">
             
-            <Button inverse>VIEW ON MAP</Button>
+            <Button inverse onClick={openMapHandler}>VIEW ON MAP</Button>
             <Button to={`/places/${props.id}`}>EDIT</Button>
             <Button danger>Delete</Button>
         </div></Card>
-    </li>)
+    </li></React.Fragment>)
 }
 
 export default PlaceItem;
