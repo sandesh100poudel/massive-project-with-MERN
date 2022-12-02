@@ -1,7 +1,11 @@
-import React,{useCallback,useReducer} from 'react';
-import Button from '../../shared/components/FormElement/Button';
+import React, { useCallback, useReducer } from 'react';
+
 import Input from '../../shared/components/FormElement/Input';
-import { VALIDATOR_REQUIRE,VALIDATOR_MINLENGTH } from '../../shared/util/validators';
+import Button from '../../shared/components/FormElement/Button';
+import {
+  VALIDATOR_REQUIRE,
+  VALIDATOR_MINLENGTH
+} from '../../shared/util/validators';
 import './NewPlace.css';
 
 const formReducer = (state, action) => {
@@ -28,49 +32,71 @@ const formReducer = (state, action) => {
   }
 };
 
-const NewPlace = () => {
-  const [formState, dispatch] = useReducer(formReducer,{
-    input:{
-      title:{
-        value:"",
-        isValid:false
-      },
-      description:{
-        value:"",
-        isValid:false,
 
+
+const NewPlace = () => {
+  const [formState, dispatch] = useReducer(formReducer, {
+    inputs: {
+      title: {
+        value: '',
+        isValid: false
+      },
+      description: {
+        value: '',
+        isValid: false
       }
-    }, isValid:false
+    },
+    isValid: false
   });
 
-const inputHandler = useCallback((id,value,isValid)=>{
-  dispatch({
-    type:'INPUT_CHANGE',
-    value:value,
-    isValid:isValid,
-    inputId:id
-  })
-},[]);
+  const inputHandler = useCallback((id, value, isValid) => {
+    dispatch({
+      type: 'INPUT_CHANGE',
+      value: value,
+      isValid: isValid,
+      inputId: id
+    });
+  }, []);
 
-  return <form className='place-form'>
-    <Input 
-    element="input" 
-    type="text"
-     label="Title"
-     validators={[VALIDATOR_REQUIRE()]}
-     errorText="please enter valid text "
-     onInput={inputHandler} />
+  const placeSubmitHandler = event =>{
+    event.preventDefault();
+    console.log(formState.inputs);
+  }
 
-<Input 
-    element="textarea" 
-    type="text"
-     label="Description"
-     validators={[VALIDATOR_MINLENGTH(5)]}
-     errorText="please enter valid description "
-     onInput={inputHandler} />
-
-     <Button type="submit" disabled={!formState.isValid}>Add Places</Button>
-  </form>
+  return (
+    <form className="place-form" onSubmit={placeSubmitHandler}>
+      <Input
+        id="title"
+        element="input"
+        type="text"
+        label="Title"
+        validators={[VALIDATOR_REQUIRE()]}
+        errorText="Please enter a valid title."
+        onInput={inputHandler}
+      />
+      <Input
+        id="description"
+        element="textarea"
+        label="Description"
+        validators={[VALIDATOR_MINLENGTH(5)]}
+        errorText="Please enter a valid description (at least 5 characters)."
+        onInput={inputHandler}
+      />
+      
+<Input
+        id="address"
+        element="input"
+        label="Address"
+        validators={[VALIDATOR_REQUIRE()]}
+        errorText="Please enter a valid address (at least 5 characters)."
+        onInput={inputHandler}
+      />
+      
+      <Button type="submit" disabled={!formState.isValid}>
+        ADD PLACE
+      </Button>
+    </form>
+  );
 };
 
 export default NewPlace;
