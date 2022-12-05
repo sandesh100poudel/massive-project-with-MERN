@@ -8,8 +8,24 @@ import Modal from "../../shared/components/UIElement/Model";
 const PlaceItem = props =>{
 
 const [showMap, setShowMap] = useState(false);
+const [showConfirmModel, setShowConfirmModel] = useState(false);
+
 const openMapHandler =() =>setShowMap(true);
 const closeMapHandler =()=>setShowMap(false);
+
+const showDeleteWarningHandler = () =>{
+
+    setShowConfirmModel(true);
+};
+
+const cancelDeleteHandler = () =>{
+     setShowConfirmModel(false);
+}
+
+const confirmDeleteHandler = () =>{
+    setShowConfirmModel(false);
+    console.log("deleting...")
+}
 
     return( 
         <React.Fragment>
@@ -24,6 +40,19 @@ const closeMapHandler =()=>setShowMap(false);
                     <h2>sorry sandesh map cannot be shown it is costly which you cannot afford</h2>
                 </div>
             </Modal>
+
+            <Modal 
+            header="Are you sure?"
+            footerClass="place-item__modal-actions"
+            show={showConfirmModel}
+            onCancel={cancelDeleteHandler}
+            footer={
+                <React.Fragment>
+                    <Button inverse onClick={cancelDeleteHandler}>CANCEL</Button>
+                    <Button danger onClick={confirmDeleteHandler}>Delete</Button>
+                </React.Fragment>
+            } ></Modal>
+
     <li className="place-item">
         <Card className ="place-item__content">
         <div className="place-item__image">
@@ -38,7 +67,7 @@ const closeMapHandler =()=>setShowMap(false);
             
             <Button inverse onClick={openMapHandler}>VIEW ON MAP</Button>
             <Button to={`/places/${props.id}`}>EDIT</Button>
-            <Button danger>Delete</Button>
+            <Button danger onClick={showDeleteWarningHandler}>Delete</Button>
         </div></Card>
     </li></React.Fragment>)
 }
