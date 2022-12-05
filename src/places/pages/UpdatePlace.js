@@ -7,9 +7,8 @@ import {
   VALIDATOR_REQUIRE,
   VALIDATOR_MINLENGTH
 } from '../../shared/util/validators';
-import "./NewPlace.css";
 import { useForm } from '../../shared/hooks/form-hook';
-
+import './NewPlace';
 
 const DUMMY_PLACES = [
   {
@@ -45,16 +44,24 @@ const UpdatePlace = () => {
 
   const identifiedPlace = DUMMY_PLACES.find(p => p.id === placeId);
 
-  const [formState, inputHandler] = useForm({
-    title:{
-        value:identifiedPlace.title,
-        isValid:true
+  const [formState, inputHandler] = useForm(
+    {
+      title: {
+        value: identifiedPlace.title,
+        isValid: true
+      },
+      description: {
+        value: identifiedPlace.description,
+        isValid: true
+      }
     },
-    description:{
-        value:identifiedPlace.description,
-        isValid:true
-    }
-  },true)
+    true
+  );
+
+  const placeUpdateSubmitHandler = event => {
+    event.preventDefault();
+    console.log(formState.inputs);
+  };
 
   if (!identifiedPlace) {
     return (
@@ -63,13 +70,9 @@ const UpdatePlace = () => {
       </div>
     );
   }
-  const placeUpdateSubmitHandler = event =>{
-    event.preventDefault();
-    console.log(formState.inputs);
-  }
 
   return (
-    <form className='place-form' onSubmit={placeUpdateSubmitHandler}>
+    <form className="place-form" onSubmit={placeUpdateSubmitHandler}>
       <Input
         id="title"
         element="input"
@@ -78,8 +81,8 @@ const UpdatePlace = () => {
         validators={[VALIDATOR_REQUIRE()]}
         errorText="Please enter a valid title."
         onInput={inputHandler}
-        initalValue={formState.inputs.title.value}
-        initalValid={formState.inputs.title.isValid}
+        initialValue={formState.inputs.title.value}
+        initialValid={formState.inputs.title.isValid}
       />
       <Input
         id="description"
